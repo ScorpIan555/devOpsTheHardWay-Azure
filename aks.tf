@@ -2,17 +2,29 @@ data "azurerm_subnet" "akssubnet" {
   name                 = "aks"
   virtual_network_name = "${var.name}-vnet"
   resource_group_name  = data.azurerm_resource_group.resource_group.name
+
+  depends_on = [
+    azurerm_resource_group.acr_resource_group
+  ]
 }
 
 data "azurerm_subnet" "appgwsubnet" {
   name                 = "appgw"
   virtual_network_name = "${var.name}-vnet"
   resource_group_name  = data.azurerm_resource_group.resource_group.name
+
+  depends_on = [
+    azurerm_resource_group.acr_resource_group
+  ]
 }
 
 data "azurerm_log_analytics_workspace" "workspace" {
   name                = "${var.name}-la"
   resource_group_name = data.azurerm_resource_group.resource_group.name
+
+  depends_on = [
+    azurerm_resource_group.acr_resource_group
+  ]
 }
 
 resource "azurerm_kubernetes_cluster" "k8s" {
@@ -46,7 +58,7 @@ resource "azurerm_kubernetes_cluster" "k8s" {
   }
 
   # addon_profile {
-    #https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster#oms_agent
+  #https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster#oms_agent
   #   oms_agent { need to create a resouce, see docs above
   #     enabled                    = var.addons.oms_agent
   #     log_analytics_workspace_id = data.azurerm_log_analytics_workspace.workspace.id
@@ -95,6 +107,10 @@ resource "azurerm_role_assignment" "node_infrastructure_update_scale_set" {
 data "azurerm_container_registry" "example" {
   name                = "${var.name}acr"
   resource_group_name = data.azurerm_resource_group.resource_group.name
+
+  depends_on = [
+    azurerm_resource_group.acr_resource_group
+  ]
 }
 
 resource "azurerm_role_assignment" "acr_pull" {
