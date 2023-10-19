@@ -9,6 +9,6 @@ az ad group create --display-name $AZURE_AD_GROUP_NAME --mail-nickname $AZURE_AD
 # Add Current az login user to Azure AD Group
 az ad group member add --group $AZURE_AD_GROUP_NAME --member-id $CURRENT_USER_OBJECTID
 
-# AZURE_GROUP_ID=$(az ad group show --group "devopsthehardway-aks-group" --query id -o tsv)
+AZURE_GROUP_ID=$(az ad group show --group "devopsthehardway-aks-group" --query id -o tsv)
 
-# echo "AZURE AD GROUP ID IS: $AZURE_GROUP_ID" 
+echo "AZURE AD GROUP ID IS: $AZURE_GROUP_ID" 

@@ -36,3 +36,6 @@ terraform.rc
 
 # Ignore VSCode files
 .vscode 
+
+# Project Log
+.project-log.md

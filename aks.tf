@@ -1,34 +1,34 @@
-data "azurerm_subnet" "akssubnet" {
-  name                 = "aks"
-  virtual_network_name = "${var.name}-vnet"
-  resource_group_name  = data.azurerm_resource_group.resource_group.name
+# data "azurerm_subnet" "akssubnet" {
+#   name                 = "aks"
+#   virtual_network_name = "${var.name}-vnet"
+#   resource_group_name  = data.azurerm_resource_group.resource_group.name
 
-  depends_on = [
-    azurerm_resource_group.acr_resource_group
-  ]
-}
+#   depends_on = [
+#     azurerm_resource_group.acr_resource_group
+#   ]
+# }
 
-data "azurerm_subnet" "appgwsubnet" {
-  name                 = "appgw"
-  virtual_network_name = "${var.name}-vnet"
-  resource_group_name  = data.azurerm_resource_group.resource_group.name
+# data "azurerm_subnet" "appgwsubnet" {
+#   name                 = "appgw"
+#   virtual_network_name = "${var.name}-vnet"
+#   resource_group_name  = data.azurerm_resource_group.resource_group.name
 
-  depends_on = [
-    azurerm_resource_group.acr_resource_group
-  ]
-}
+#   depends_on = [
+#     azurerm_resource_group.acr_resource_group
+#   ]
+# }
 
-data "azurerm_log_analytics_workspace" "workspace" {
-  name                = "${var.name}-la"
-  resource_group_name = data.azurerm_resource_group.resource_group.name
+# data "azurerm_log_analytics_workspace" "workspace" {
+#   name                = "${var.name}-la"
+#   resource_group_name = data.azurerm_resource_group.resource_group.name
 
-  depends_on = [
-    azurerm_resource_group.acr_resource_group
-  ]
-}
+#   depends_on = [
+#     azurerm_resource_group.acr_resource_group
+#   ]
+# }
 
 resource "azurerm_kubernetes_cluster" "k8s" {
-  name                = "${var.name}aks"
+  name                = "${var.name}-aks-cluster"
   location            = var.location
   resource_group_name = data.azurerm_resource_group.resource_group.name
   dns_prefix          = "${var.name}dns"
@@ -48,9 +48,10 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     name                 = "agentpool"
     node_count           = var.agent_count
     vm_size              = var.vm_size
-    vnet_subnet_id       = data.azurerm_subnet.akssubnet.id
+    vnet_subnet_id       = azurerm_subnet.aks_subnet.id
     type                 = "VirtualMachineScaleSets"
     orchestrator_version = var.kubernetes_version
+    # availability_zones   = [1, 2, 3]
   }
 
   identity {
@@ -72,8 +73,8 @@ resource "azurerm_kubernetes_cluster" "k8s" {
   # }
 
   network_profile {
-    load_balancer_sku = "standard"
-    network_plugin    = "azure"
+    load_balancer_sku = "standard"  # https://learn.microsoft.com/en-us/azure/load-balancer/skus
+    network_plugin    = "azure" 
   }
 
   # role_based_access_control {
@@ -104,14 +105,15 @@ resource "azurerm_role_assignment" "node_infrastructure_update_scale_set" {
   ]
 }
 
-data "azurerm_container_registry" "example" {
-  name                = "${var.name}acr"
-  resource_group_name = data.azurerm_resource_group.resource_group.name
+# why is this block here?
+# data "azurerm_container_registry" "example" {
+#   name                = "${var.name}acr"
+#   resource_group_name = data.azurerm_resource_group.resource_group.name
 
-  depends_on = [
-    azurerm_resource_group.acr_resource_group
-  ]
-}
+#   depends_on = [
+#     azurerm_resource_group.acr_resource_group
+#   ]
+# }
 
 resource "azurerm_role_assignment" "acr_pull" {
   principal_id         = azurerm_kubernetes_cluster.k8s.kubelet_identity[0].object_id

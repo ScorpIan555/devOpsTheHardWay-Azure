@@ -1,16 +1,16 @@
 #!/bin/sh
 
-RESOURCE_GROUP_NAME="test-devops-thw-rg"
-STORAGE_ACCOUNT_NAME="testdevopsthwsa"
+RESOURCE_GROUP_NAME="devops-the-hard-way-backend-rg"
+STORAGE_ACCOUNT_NAME="devopsthehardwaybackend"
+STORAGE_CONTAINER_NAME="tfstate"
 LOCATION="centralindia"
-# RESOURCE_GROUP_NAME="devopstamops-rg"
-# STORAGE_ACCOUNT_NAME="devopstamopssa"
+SKU="Standard_LRS"
 
 # Create Resource Group
 az group create -l $LOCATION -n $RESOURCE_GROUP_NAME
 
 # Create Storage Account
-az storage account create -n $STORAGE_ACCOUNT_NAME -g $RESOURCE_GROUP_NAME -l centralindia --sku Standard_LRS
+az storage account create -n $STORAGE_ACCOUNT_NAME -g $RESOURCE_GROUP_NAME -l $LOCATION --sku $SKU
 
 # Create Storage Account blob
-az storage container create  --name tfstate --account-name $STORAGE_ACCOUNT_NAME
+az storage container create  --name $STORAGE_CONTAINER_NAME --account-name $STORAGE_ACCOUNT_NAME

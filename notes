@@ -1,0 +1,36 @@
+# Disclaimer:  This is not curated, it's just a bunch of stuff I found googling around this stuff.
+
+
+## MS Security Benchmark
+https://learn.microsoft.com/en-us/security/benchmark/azure/overview
+https://learn.microsoft.com/en-us/azure/well-architected/
+
+https://learn.microsoft.com/en-us/azure/well-architected/security/security-principles
+https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/
+
+
+- this looks like it has a lot of interesting resources:
+    https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/network-topology-and-connectivity
+
+
+### Security Docs (in no particular order)
+- https://learn.microsoft.com/en-us/azure/well-architected/security/design-network-flow
+
+### Networking Docs
+- https://learn.microsoft.com/en-us/azure/network-watcher/network-insights-topology
+
+### Azure Services Docs
+- AKS Baseline:  https://github.com/mspnp/aks-baseline
+- https://learn.microsoft.com/en-us/azure/architecture/reference-architectures/containers/aks/baseline-aks
+- https://learn.microsoft.com/en-us/azure/well-architected/services/compute/azure-kubernetes-service/azure-kubernetes-service
+
+
+
+### Azure Jenkins docs
+https://learn.microsoft.com/en-us/azure/developer/jenkins/deploy-to-azure-app-service-using-azure-cli
+
+
+
+## Good articles
+1. https://www.techtarget.com/searchsecurity/feature/The-five-different-types-of-firewalls?Offer=abVidRegWall_ctrl
+
